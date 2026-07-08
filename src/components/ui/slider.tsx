@@ -36,7 +36,9 @@ function Slider({
     >
       <SliderPrimitive.Track
         data-slot="slider-track"
-        className="relative grow overflow-hidden rounded-4xl bg-sidebar data-horizontal:h-3 data-horizontal:w-full data-vertical:h-full data-vertical:w-3"
+        className={cn(
+          "dark:bg-sidebar bg-foreground/25 relative grow overflow-hidden rounded-4xl data-horizontal:h-3 data-horizontal:w-full data-vertical:h-full data-vertical:w-3"
+        )}
       >
         <SliderPrimitive.Range
           data-slot="slider-range"
