@@ -7,6 +7,7 @@ import type { Coords } from "../../types";
 type Props = {
   coords: Coords
 }
+
 export default function CurrentWeather({coords}: Props) {
   const { data } = useSuspenseQuery({
     queryKey: ["weather", coords],
@@ -28,7 +29,7 @@ export default function CurrentWeather({coords}: Props) {
         </h3>
       </div>
       <div className="flex flex-col gap-2">
-        <p className="text-xl text-center">Local Time:</p>
+        <p className="text-xl text-center text-muted-foreground">Local Time:</p>
         <h3 className="text-4xl font-semibold">
           {new Intl.DateTimeFormat("en-US", {
             hour: "2-digit",
@@ -39,17 +40,17 @@ export default function CurrentWeather({coords}: Props) {
       </div>
       <div className="flex justify-between w-full">
         <div className="flex flex-col items-center gap-2">
-            <p className="text-gray-500">Feels like</p>
+            <p className="text-muted-foreground">Feels like</p>
             <p>{Math.round(data.current.feels_like)}°C</p>
         </div>
 
         <div className="flex flex-col items-center gap-2">
-            <p className="text-gray-500">Humidity</p>
+            <p className="text-muted-foreground">Humidity</p>
             <p>{Math.round(data.current.humidity)}%</p>
         </div>
 
         <div className="flex flex-col items-center gap-2">
-            <p className="text-gray-500">Wind</p>
+            <p className="text-muted-foreground">Wind</p>
             <p>{Math.round(data.current.wind_speed)}km/h</p>
         </div>
       </div>

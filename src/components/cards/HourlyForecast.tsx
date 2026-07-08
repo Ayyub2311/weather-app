@@ -14,12 +14,12 @@ export default function HourlyForecast({coords}: Props) {
     queryFn: () => getWeather({ lat: coords.lat, lon: coords.lon }),
   });
   return (
-    <Card title="Hourly Forecast (48 Hours)" childrenClassName="flex gap-6 overflow-x-scroll">
+    <Card title="Hourly Forecast (48 Hours)" childrenClassName="flex gap-6 overflow-x-auto">
       {data.hourly.map((hour) => (
         <div 
         key={hour.dt}
-        className="flex flex-col 2xl:justify-between gap-2 items-center p-2">
-          <p className="whitespace-nowrap 2xl:scale-110">{new Date(hour.dt * 1000).toLocaleTimeString(undefined, {
+        className="flex flex-col 2xl:justify-between gap-2 items-center p-2 text-card-foreground">
+          <p className="whitespace-nowrap 2xl:scale-110 text-muted-foreground">{new Date(hour.dt * 1000).toLocaleTimeString(undefined, {
             hour: "numeric",
             minute: "2-digit"
             })}</p>

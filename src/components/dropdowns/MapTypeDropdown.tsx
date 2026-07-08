@@ -9,13 +9,13 @@ type Props = {
 export default function MapTypeDropdown({mapType, setMapType}: Props) {
   return (
     <Select value={mapType} onValueChange={(value) => setMapType(value)}>
-      <SelectTrigger className="w-full xs:w-[180px]">
-        <SelectValue placeholder="Theme" />
+      <SelectTrigger className="w-full xs:w-[180px] bg-secondary text-secondary-foreground border-border">
+        <SelectValue placeholder="Map Type" />
       </SelectTrigger>
-      <SelectContent className="z-1001">
-          {types.map((city) => (
-            <SelectItem key={city} value={city} className="capitalize"> 
-            {city.split('_')[0]} 
+      <SelectContent className="z-[1001] bg-popover text-popover-foreground border-border">
+          {types.map((type) => (
+            <SelectItem key={type} value={type} className="capitalize"> 
+            {type.split('_')[0]} 
             </SelectItem>
            ))}
       </SelectContent>

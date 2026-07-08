@@ -3,8 +3,11 @@ import "leaflet/dist/leaflet.css";
 import type { Coords } from "../types";
 import { useEffect } from "react";
 import { MaptilerLayer } from "@maptiler/leaflet-maptilersdk";
+import { useTheme } from "./ThemeProvider";
 
 const API_KEY = import.meta.env.VITE_API_KEY;
+
+
 
 type Props = {
   coords: Coords;
@@ -18,12 +21,14 @@ export default function Map({ coords, onMapClick, mapType }: Props) {
     <MapContainer
       center={[lat, lon]}
       zoom={5}
-      style={{ width: "100%", height: "100%" }}
+      style={{ width: "100%", height: "100%", borderRadius: "1rem" }}
     >
       <MapClick onMapClick={onMapClick} coords={coords} />
-      <MapTileLayer />
+      <MapTileLayer  />
       <TileLayer
-      opacity={0.7}
+      opacity={0.75}
+      zIndex={10}
+className="weather-overlay"
         url={`https://tile.openweathermap.org/map/${mapType}/{z}/{x}/{y}.png?appid=${API_KEY}`}
       />
       <Marker position={[lat, lon]} />
@@ -49,17 +54,18 @@ function MapClick({
 }
 
 function MapTileLayer() {
+  const { theme } = useTheme();
   const map = useMap();
 
   useEffect(() => {
     const tileLayer = new MaptilerLayer({
-      style: "basic-dark",
+      style: theme === "dark" ? "streets-dark" : "streets-v2",
       apiKey: "MX6B2gtbTAMjPe69mgfF",
     });
     tileLayer.addTo(map);
 
     return () => {map.removeLayer(tileLayer)}
-  }, [map]);
+  }, [map, theme]);
 
   return null;
 }

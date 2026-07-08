@@ -15,10 +15,10 @@ type Props = {
 export default function LocationDropdown({ location, setLocation }: Props) {
   return (
     <Select value={location} onValueChange={(value) => setLocation(value)}>
-      <SelectTrigger className="w-full xs:w-[180px]">
-        <SelectValue placeholder="Theme" />
+      <SelectTrigger className="w-full xs:w-[180px] bg-secondary text-foreground border-border">
+        <SelectValue placeholder="Location" />
       </SelectTrigger>
-      <SelectContent className="z-1001">
+      <SelectContent className="z-[1001] bg-popover text-popover-foreground border-border">
         {location === "custom" && (
           <SelectItem value="custom">Custom</SelectItem>
         )}

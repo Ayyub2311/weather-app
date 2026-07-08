@@ -1,4 +1,3 @@
-import React from "react";
 
 type Props = {
   mapType: string;
@@ -14,15 +13,15 @@ export default function MapLegend({ mapType }: Props) {
     .join(", ");
 
   return (
-    <div className="absolute top-4 right-4 z-1000 w-48 xs:w-96 rounded-xl shadow-lg p-4 bg-background/50 border border-accent/70 flex flex-col gap-3">
-      <h3 className="text-sm font-semibold text-foreground">{data.title}</h3>
+    <div className="absolute top-4 right-4 z-[1000] w-48 xs:w-96 rounded-xl shadow-lg p-4 bg-popover/90 border border-border flex flex-col gap-3 text-card-foreground backdrop-blur-md">
+      <h3 className="text-sm font-semibold text-popover-foreground">{data.title}</h3>
       <div
-        className="w-full h-6 rounded-xl border border-accent/70"
+        className="w-full h-6 rounded-xl border border-border"
         style={{
           background: `linear-gradient(to right, ${gradientStops})`,
         }}
       />
-      <div className="flex justify-between text-xs text-foreground">
+      <div className="flex justify-between text-xs text-muted-foreground">
 <span>{data.stops[0].value} {data.unit}</span>
 <span>{data.stops[data.stops.length - 1].value} {data.unit}</span>
       </div>

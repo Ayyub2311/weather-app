@@ -7,9 +7,9 @@ export default function LightDarkToggle() {
   const { theme, toggleTheme } = useTheme();
   return (
     <div className="flex items-center gap-2">
-      <Sun className="size-5 " />
+      <Sun className="size-5 text-muted-foreground" />
       <Switch checked={theme === 'dark'} onCheckedChange={toggleTheme} />
-      <Moon className="size-5 " />
+      <Moon className="size-5 text-muted-foreground" />
     </div>
   );
 }

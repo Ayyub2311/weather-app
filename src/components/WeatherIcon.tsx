@@ -9,7 +9,7 @@ type Props = {
 export default function WeatherIcon({src, className}: Props) {
     return (
            <img
-            className={clsx("size-8", className)}
+            className={clsx("size-8 shrink-0 object-contain", className)}
             src={`https://openweathermap.org/payload/api/media/file/${src}.png`}
             alt="Weather Icon"
           />

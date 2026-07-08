@@ -1,7 +1,7 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { getWeather } from "../../api";
 import Card from "./Card";
-import Sunrise from '/src/assets/sunrise.svg?react';
+import Sunrise from "/src/assets/sunrise.svg?react";
 import Sunset from "../../assets/sunset.svg?react";
 import Uv from "../../assets/uv.svg?react";
 import Wind from "../../assets/wind.svg?react";
@@ -11,10 +11,10 @@ import UpArrow from "../../assets/up-arrow.svg?react";
 import type { Coords } from "../../types";
 
 type Props = {
-  coords: Coords
-}
+  coords: Coords;
+};
 
-export default function AdditionalInfo({coords}: Props) {
+export default function AdditionalInfo({ coords }: Props) {
   const { data } = useSuspenseQuery({
     queryKey: ["weather", coords],
     queryFn: () => getWeather({ lat: coords.lat, lon: coords.lon }),
@@ -22,18 +22,24 @@ export default function AdditionalInfo({coords}: Props) {
   return (
     <Card
       title="Additional Weather Info"
-      childrenClassName="grid grid-cols-1 md:grid-cols-2 gap-8"
-    > 
+      childrenClassName="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4"
+    >
       {rows.map(({ label, value, Icon }) => (
-        <div className="flex justify-between" key={value}>
-            <div className="flex gap-4">
-                    <span className="text-gray-500">{label}</span>
-                    <Icon className="size-6 "/>
-            </div>
-      
-          <span>
-            <FormatComponent value={value} number={data.current[value]}/>
+        <div
+          className="flex items-center justify-between"
+          key={value}
+        >
+          <div className="flex items-center gap-3">  
+            <span className="flex size-9 items-center justify-center rounded-lg bg-primary/15 text-primary">
+              <Icon className="size-5" />
             </span>
+            <span className="text-sm text-muted-foreground">{label}</span>
+          
+          </div>
+
+          <span className="font-semibold text-card-foreground">
+            <FormatComponent value={value} number={data.current[value]} />
+          </span>
         </div>
       ))}{" "}
     </Card>
@@ -47,7 +53,13 @@ function FormatComponent({ value, number }: { value: string; number: number }) {
       minute: "2-digit",
     });
 
-    if (value === "wind_deg") return <UpArrow className="size-6 " style={{transform: `rotate(${number}deg)`}}/>
+  if (value === "wind_deg")
+    return (
+      <UpArrow
+        className="size-6 text-primary"
+        style={{ transform: `rotate(${number}deg)` }}
+      />
+    );
   return number;
 }
 
@@ -55,31 +67,31 @@ const rows = [
   {
     label: "Cloudiness (%)",
     value: "clouds",
-    Icon: Cloud
+    Icon: Cloud,
   },
   {
     label: "UV Index",
     value: "uvi",
-    Icon: Uv
+    Icon: Uv,
   },
   {
     label: "Wind Direction",
     value: "wind_deg",
-    Icon: Wind
+    Icon: Wind,
   },
   {
     label: "Pressure (hPa)",
     value: "pressure",
-    Icon: Pressure
+    Icon: Pressure,
   },
   {
     label: "Sunrise",
     value: "sunrise",
-    Icon: Sunrise
+    Icon: Sunrise,
   },
   {
     label: "Sunset",
     value: "sunset",
-    Icon: Sunset
+    Icon: Sunset,
   },
 ] as const;

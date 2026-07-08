@@ -24,10 +24,10 @@ type Props = {
 export default function SidePanel(props: Props) {
   const {isSidePanelOpen, setIsSidePanelOpen} = props
   return (
-    <div className={clsx("fixed top-0 right-0 h-screen w-(var(--sidebar-width)) shadow-md bg-sidebar z-1001 py-8 px-4 overflow-y-scroll transition-transform duration-300 lg:translate-x-0!", isSidePanelOpen ? 'translate-x-0' : 'translate-x-full')}>
+    <div className={clsx("fixed top-0 right-0 h-screen w-[var(--sidebar-width)] shadow-md bg-sidebar z-[1001] py-8 px-4 overflow-y-scroll transition-transform duration-300 lg:translate-x-0!", isSidePanelOpen ? 'translate-x-0' : 'translate-x-full')}>
    
      <button onClick={() => setIsSidePanelOpen(false)}>
-        <Chevron className="size-8  -ml-2 lg:hidden"/>
+        <Chevron className="size-8 -ml-2 lg:hidden"/>
      </button>
       <Suspense fallback={<SidePanelSkeleton />}>
         <AirPollution {...props} />
@@ -66,7 +66,7 @@ function AirPollution({ coords }: Props) {
             <TooltipTrigger>
               <Information className="size-4 " />
             </TooltipTrigger>
-            <TooltipContent className="z-2000">
+            <TooltipContent className="z-[2000]">
               <p className="max-w-xs">
                 {""}
                 Air Quality Index. Possible values: 1, 2, 3, 4, 5. Where 1 =
@@ -100,15 +100,15 @@ function AirPollution({ coords }: Props) {
         const qualityColor = (() => {
           switch (currentLevel) {
             case "Good":
-              return "bg-green-500";
+              return "bg-emerald-500 text-white";
             case "Fair":
-              return "bg-yellow-500";
+              return "bg-yellow-400 text-slate-900";
             case "Moderate":
-              return "bg-orange-500";
+              return "bg-orange-500 text-white";
             case "Poor":
-              return "bg-red-500";
+              return "bg-red-500 text-white";
             case "Very Poor":
-              return "bg-purple-500";
+              return "bg-purple-600 text-white";
             default:
               return "bg-zinc-500";
           }
@@ -118,7 +118,7 @@ function AirPollution({ coords }: Props) {
           <Card
             key={key}
             childrenClassName="flex flex-col gap-3"
-            className="hover:scale-105 transition-transform duration-300 from-sidebar-accent to-sidebar-accent/60 gap-0!"
+            className="hover:scale-105 transition-transform duration-300 bg-card gap-0!"
           >
             <div className="flex justify-between">
               <div className="flex items-center gap-2">
@@ -130,7 +130,7 @@ function AirPollution({ coords }: Props) {
             <TooltipTrigger>
               <Information className="size-4 " />
             </TooltipTrigger>
-            <TooltipContent className="z-2000">
+            <TooltipContent className="z-[2000]">
               <p className="max-w-xs">
                 Concentration of {pollutantNames[pollutantKey]}
               </p>
@@ -147,7 +147,7 @@ function AirPollution({ coords }: Props) {
               <p>{max}</p>
             </div>
 
-            <div className="flex justify between">
+            <div className="flex justify-between">
               {Object.keys(pollutant).map((quality) => (
                 <span
                   className={clsx(
