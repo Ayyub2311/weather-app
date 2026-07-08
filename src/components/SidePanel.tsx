@@ -24,7 +24,7 @@ type Props = {
 export default function SidePanel(props: Props) {
   const {isSidePanelOpen, setIsSidePanelOpen} = props
   return (
-    <div className={clsx("fixed top-0 right-0 h-screen w-(var(--sidebar-width)) shadow-xs bg-card z-1001 py-8 px-4 overflow-y-scroll transition-transform duration-300 lg:translate-x-0!", isSidePanelOpen ? 'translate-x-0' : 'translate-x-full')}>
+    <div className={clsx("fixed top-0 right-0 h-screen w-(var(--sidebar-width)) shadow-md bg-sidebar z-1001 py-8 px-4 overflow-y-scroll transition-transform duration-300 lg:translate-x-0!", isSidePanelOpen ? 'translate-x-0' : 'translate-x-full')}>
    
      <button onClick={() => setIsSidePanelOpen(false)}>
         <Chevron className="size-8  -ml-2 lg:hidden"/>
@@ -118,7 +118,7 @@ function AirPollution({ coords }: Props) {
           <Card
             key={key}
             childrenClassName="flex flex-col gap-3"
-            className="hover:scale-105 transition-transform duration-300 from-background to-background/60 gap-0!"
+            className="hover:scale-105 transition-transform duration-300 from-sidebar-accent to-sidebar-accent/60 gap-0!"
           >
             <div className="flex justify-between">
               <div className="flex items-center gap-2">
