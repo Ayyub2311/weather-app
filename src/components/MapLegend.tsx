@@ -1,9 +1,12 @@
+import { useTranslation } from "react-i18next";
 
 type Props = {
   mapType: string;
 };
 
 export default function MapLegend({ mapType }: Props) {
+  const { t } = useTranslation();
+
   const data = mapTypeData[mapType];
 
   const maxValue = data.stops[data.stops.length - 1].value;
@@ -14,7 +17,7 @@ export default function MapLegend({ mapType }: Props) {
 
   return (
     <div className="absolute top-4 right-4 z-[1000] w-48 xs:w-96 rounded-xl shadow-lg p-4 bg-popover/90 border border-border flex flex-col gap-3 text-card-foreground backdrop-blur-md">
-      <h3 className="text-sm font-semibold text-popover-foreground">{data.title}</h3>
+      <h3 className="text-sm font-semibold text-popover-foreground">{t(data.titleKey)}</h3>
       <div
         className="w-full h-6 rounded-xl border border-border"
         style={{
@@ -32,10 +35,10 @@ export default function MapLegend({ mapType }: Props) {
 
 const mapTypeData: Record<
 string,
-{ title: string; unit: string; stops: ColorStop[] }
+{ titleKey: string; unit: string; stops: ColorStop[] }
 > = {
-  "precipitation_new": {
-    title: 'Rain (mm)',
+  "precipitation_new": { 
+    titleKey: "mapLegend.rain",
     unit: 'mm',
     stops: [
       { value: 0, color: 'rgba(225, 200, 100, 0)' },
@@ -49,7 +52,7 @@ string,
   },
 
   "snow_new": {
-    title: 'Snow',
+    titleKey: "mapLegend.snow",
     unit: 'mm',
     stops: [
       { value: 0, color: 'transparent' },
@@ -60,7 +63,7 @@ string,
   },
 
   "clouds_new": {
-    title: 'Clouds (%)',
+    titleKey: "mapLegend.clouds",
     unit: '%',
     stops: [
       { value: 0, color: 'rgba(255, 255, 255, 0.0)' },
@@ -78,7 +81,7 @@ string,
   },
 
   "temp_new": {
-    title: 'Temperature (°C)',
+    titleKey: "mapLegend.temperature",
     unit: '°C',
     stops: [
       { value: -65, color: 'rgba(130, 22, 146, 1)' },
@@ -97,7 +100,7 @@ string,
   },
 
   "pressure_new": {
-    title: 'Pressure (Pa)',
+    titleKey: "mapLegend.pressure",
     unit: 'Pa',
     stops: [
       { value: 94000, color: 'rgba(0, 115, 255, 1)' },
@@ -113,7 +116,7 @@ string,
   },
 
   "wind_new": {
-    title: 'Wind (m/s)',
+    titleKey: "mapLegend.wind",
     unit: 'm/s',
     stops: [
       { value: 1, color: 'rgba(255, 255, 255, 0)' },

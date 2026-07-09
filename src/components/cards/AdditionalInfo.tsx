@@ -9,22 +9,26 @@ import Cloud from "../../assets/cloud.svg?react";
 import Pressure from "../../assets/pressure.svg?react";
 import UpArrow from "../../assets/up-arrow.svg?react";
 import type { Coords } from "../../types";
+import { useTranslation } from "react-i18next";
+
 
 type Props = {
   coords: Coords;
 };
 
 export default function AdditionalInfo({ coords }: Props) {
+  const { t } = useTranslation();
+
   const { data } = useSuspenseQuery({
     queryKey: ["weather", coords],
     queryFn: () => getWeather({ lat: coords.lat, lon: coords.lon }),
   });
   return (
     <Card
-      title="Additional Weather Info"
+      title={t("additionalWeatherInfo")}
       childrenClassName="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4"
     >
-      {rows.map(({ label, value, Icon }) => (
+      {rows.map(({ labelKey, value, Icon }) => (
         <div
           className="flex items-center justify-between"
           key={value}
@@ -33,7 +37,7 @@ export default function AdditionalInfo({ coords }: Props) {
             <span className="flex size-9 items-center justify-center rounded-lg bg-primary/15 text-primary">
               <Icon className="size-5" />
             </span>
-            <span className="text-sm text-muted-foreground">{label}</span>
+            <span className="text-sm text-muted-foreground">{t(labelKey)}</span>
           
           </div>
 
@@ -70,32 +74,32 @@ function FormatComponent({ value, number }: { value: string; number?: number }) 
 
 const rows = [
   {
-    label: "Cloudiness (%)",
+    labelKey: "cloudiness",
     value: "clouds",
     Icon: Cloud,
   },
   {
-    label: "UV Index",
+    labelKey: "uvIndex",
     value: "uvi",
     Icon: Uv,
   },
   {
-    label: "Wind Direction",
+    labelKey: "windDirection",
     value: "wind_deg",
     Icon: Wind,
   },
   {
-    label: "Pressure (hPa)",
+    labelKey: "pressure",
     value: "pressure",
     Icon: Pressure,
   },
   {
-    label: "Sunrise",
+    labelKey: "sunrise",
     value: "sunrise",
     Icon: Sunrise,
   },
   {
-    label: "Sunset",
+    labelKey: "sunset",
     value: "sunset",
     Icon: Sunset,
   },

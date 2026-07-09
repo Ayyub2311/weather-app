@@ -18,12 +18,16 @@ import SidePanel from "./components/SidePanel";
 import Hamburger from "./assets/hamburger.svg?react";
 import MobileHeader from "./components/MobileHeader";
 import LightDarkToggle from "./components/LightDarkToggle";
+import { useTranslation } from "react-i18next";
+import LanguageSwitcher from "./components/LanguageSwitcher";
 
 function App() {
   const [coordinates, setCoords] = useState<Coords>({ lat: 40, lon: 55 });
   const [location, setLocation] = useState("Groningen");
   const [mapType, setMapType] = useState("clouds_new");
   const [isSidePanelOpen, setIsSidePanelOpen] = useState(false);
+
+  const { t } = useTranslation();
 
   const { data: geocodeData } = useQuery({
     queryKey: ["geocode", location],
@@ -49,26 +53,27 @@ function App() {
       "
       >
         <div className="flex flex-col gap-4 xs:flex-row xs:gap-8">
-          <div className="flex flex-col md:flex-row gap-2 md:gap-4 ">
-            <h1 className="text-2xl font-semibold">Location: </h1>
+          <div className="flex flex-col 2xl:flex-row gap-2 md:gap-4 ">
+            <h1 className="text-2xl font-semibold">{t("location")}: </h1>
             <LocationDropdown location={location} setLocation={setLocation} />
           </div>
-          <div className="flex flex-col md:flex-row gap-2 md:gap-4">
+          <div className="flex flex-col 2xl:flex-row gap-2 md:gap-4">
             <h1 className="text-2xl font-semibold whitespace-nowrap">
-              Map Type:{" "}
+              {t("mapType")}:{" "}
             </h1>
             <MapTypeDropdown mapType={mapType} setMapType={setMapType} />
           </div>
 
           <div className="ml-auto flex gap-4 items-center">
-            <div className="hidden xs:block">
+            <div className="hidden md:flex flex-col md:flex-row lg:flex-col xl:flex-row  gap-2 md:gap-4 2xl:gap-8 items-center">
               <LightDarkToggle />
+              <LanguageSwitcher />
             </div>
             <button
               onClick={() => setIsSidePanelOpen(true)}
               className="hidden xs:block"
             >
-              <Hamburger className="size-6 lg:hidden" />
+              <Hamburger className="size-6 xs:hidden" />
             </button>
           </div>
         </div>

@@ -14,21 +14,26 @@ import {
 import Information from "../assets/information.svg?react";
 import Chevron from "../assets/chevron-left.svg?react";
 import SidePanelSkeleton from "./skeletons/SidePanelSkeleton";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   coords: Coords;
-  isSidePanelOpen: boolean
-  setIsSidePanelOpen: Dispatch<SetStateAction<boolean>>
+  isSidePanelOpen: boolean;
+  setIsSidePanelOpen: Dispatch<SetStateAction<boolean>>;
 };
 
 export default function SidePanel(props: Props) {
-  const {isSidePanelOpen, setIsSidePanelOpen} = props
+  const { isSidePanelOpen, setIsSidePanelOpen } = props;
   return (
-    <div className={clsx("fixed top-0 right-0 h-screen w-[var(--sidebar-width)] shadow-md bg-sidebar z-[1001] py-8 px-4 overflow-y-scroll transition-transform duration-300 lg:translate-x-0!", isSidePanelOpen ? 'translate-x-0' : 'translate-x-full')}>
-   
-     <button onClick={() => setIsSidePanelOpen(false)}>
-        <Chevron className="size-8 -ml-2 lg:hidden"/>
-     </button>
+    <div
+      className={clsx(
+        "fixed top-0 right-0 h-screen w-[var(--sidebar-width)] shadow-md bg-sidebar z-[1001] py-8 px-4 overflow-y-scroll transition-transform duration-300 lg:translate-x-0!",
+        isSidePanelOpen ? "translate-x-0" : "translate-x-full",
+      )}
+    >
+      <button onClick={() => setIsSidePanelOpen(false)}>
+        <Chevron className="size-8 -ml-2 lg:hidden" />
+      </button>
       <Suspense fallback={<SidePanelSkeleton />}>
         <AirPollution {...props} />
       </Suspense>
@@ -50,6 +55,7 @@ function normalizePollutantKey(key: string): PollutantKey | null {
 }
 
 function AirPollution({ coords }: Props) {
+  const { t } = useTranslation();
   const { data } = useSuspenseQuery({
     queryKey: ["pollution", coords],
     queryFn: () => getAirPollution(coords),
@@ -57,10 +63,10 @@ function AirPollution({ coords }: Props) {
 
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="text-2xl font-semibold ">Air Pollution</h1>
+      <h1 className="text-2xl font-semibold ">{t("airPollution")}</h1>
       <h1 className="text-5xl font-semibold ">{data.list[0].main.aqi}</h1>
       <div className="flex items-center gap-2">
-        <h1 className="text-2xl font-semibold">AQI</h1>
+        <h1 className="text-2xl font-semibold">{t("aqi")}</h1>
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger>
@@ -69,8 +75,7 @@ function AirPollution({ coords }: Props) {
             <TooltipContent className="z-[2000]">
               <p className="max-w-xs">
                 {""}
-                Air Quality Index. Possible values: 1, 2, 3, 4, 5. Where 1 =
-                Good, 2 = Fair, 3 = Moderate, 4 = Poor, 5 = Very Poor
+                {t("aqiTooltip")}
               </p>
             </TooltipContent>
           </Tooltip>
@@ -114,6 +119,14 @@ function AirPollution({ coords }: Props) {
           }
         })();
 
+        const aqiLevelNumbers = {
+          Good: 1,
+          Fair: 2,
+          Moderate: 3,
+          Poor: 4,
+          "Very Poor": 5,
+        } as const;
+
         return (
           <Card
             key={key}
@@ -122,23 +135,25 @@ function AirPollution({ coords }: Props) {
           >
             <div className="flex justify-between">
               <div className="flex items-center gap-2">
-                 <span className="text-lg font-bold capitalize">
-                {pollutantKey}
-              </span>
-              <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger>
-              <Information className="size-4 " />
-            </TooltipTrigger>
-            <TooltipContent className="z-[2000]">
-              <p className="max-w-xs">
-                Concentration of {pollutantNames[pollutantKey]}
-              </p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+                <span className="text-lg font-bold capitalize">
+                  {pollutantKey}
+                </span>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <Information className="size-4 " />
+                    </TooltipTrigger>
+                    <TooltipContent className="z-[2000]">
+                      <p className="max-w-xs">
+                        {t("pollutantConcentration", {
+                          pollutant: t(`pollutants.${pollutantKey}`),
+                        })}
+                      </p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
               </div>
-             
+
               <span className="text-lg font-semibold">{value}</span>
             </div>
             <Slider min={0} max={max} value={[value]} disabled />
@@ -147,17 +162,18 @@ function AirPollution({ coords }: Props) {
               <p>{max}</p>
             </div>
 
-            <div className="flex justify-between">
+            <div className="flex flex-wrap gap-2">
               {Object.keys(pollutant).map((quality) => (
                 <span
+                  key={quality}
                   className={clsx(
-                    "px-2 py-1 rounded-md text-xs font-medium",
+                    "px-3 py-1 rounded-md text-[16px] font-medium whitespace-nowrap",
                     quality === currentLevel
                       ? qualityColor
                       : "bg-muted text-muted-foreground",
                   )}
                 >
-                  {quality}
+                  {aqiLevelNumbers[quality as keyof typeof aqiLevelNumbers]}
                 </span>
               ))}
             </div>
@@ -211,15 +227,6 @@ const airQualityIndex = {
     Poor: { min: 12400, max: 15400 },
     "Very Poor": { min: 15400, max: Infinity },
   },
-} as const;
-
-const pollutantNames = {
-  SO2: "Sulfur dioxide",
-  NO2: "Nitrogen dioxide",
-  PM10: "Particulate matter 10",
-  PM25: "Fine particulate matter 2.5",
-  O3: "Ozone",
-  CO: "Carbon monoxide",
 } as const;
 
 type PollutantKey = keyof typeof airQualityIndex;

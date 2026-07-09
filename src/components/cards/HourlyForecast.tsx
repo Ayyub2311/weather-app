@@ -3,18 +3,22 @@ import { getWeather } from "../../api";
 import Card from "./Card";
 import WeatherIcon from "../WeatherIcon";
 import type { Coords } from "../../types";
+import { useTranslation } from "react-i18next";
+
 
 type Props = {
   coords: Coords
 }
 
 export default function HourlyForecast({coords}: Props) {
+  const { t } = useTranslation();
+
   const { data } = useSuspenseQuery({
     queryKey: ["weather", coords],
     queryFn: () => getWeather({ lat: coords.lat, lon: coords.lon }),
   });
   return (
-    <Card title="Hourly Forecast (48 Hours)" childrenClassName="flex gap-6 overflow-x-auto">
+    <Card title={t("hourlyForecast")} childrenClassName="flex gap-6 overflow-x-auto">
       {data.hourly.map((hour) => (
         <div 
         key={hour.dt}
