@@ -38,7 +38,11 @@ export default function AdditionalInfo({ coords }: Props) {
           </div>
 
           <span className="font-semibold text-card-foreground">
-            <FormatComponent value={value} number={data.current[value]} />
+            <FormatComponent value={value} number={
+              value === "sunrise" || value === "sunset"
+              ? data.current[value] ?? data.daily[0]?.[value]
+              : data.current[value]
+            } />
           </span>
         </div>
       ))}{" "}
@@ -46,7 +50,8 @@ export default function AdditionalInfo({ coords }: Props) {
   );
 }
 
-function FormatComponent({ value, number }: { value: string; number: number }) {
+function FormatComponent({ value, number }: { value: string; number?: number }) {
+  if (number == null) return "-";
   if (value === "sunrise" || value === "sunset")
     return new Date(number * 1000).toLocaleTimeString(undefined, {
       hour: "numeric",

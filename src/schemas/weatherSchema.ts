@@ -8,8 +8,8 @@ export const WeatherSchema = z.object({
 
   current: z.object({
     dt: z.number(),
-    sunrise: z.number(),
-    sunset: z.number(),
+    sunrise: z.number().optional(),
+    sunset: z.number().optional(),
     temp: z.number(),
     feels_like: z.number(),
     pressure: z.number(),
@@ -42,7 +42,7 @@ export const WeatherSchema = z.object({
       dew_point: z.number(),
       uvi: z.number(),
       clouds: z.number(),
-      visibility: z.number(),
+      visibility: z.number().optional(),
       wind_speed: z.number(),
       wind_deg: z.number(),
       wind_gust: z.number().optional(),
